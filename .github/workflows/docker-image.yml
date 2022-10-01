@@ -18,4 +18,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build --build-arg CLIENT_ID=$CLIENT_ID --build-arg TOKEN=$TOKEN. --file Dockerfile --tag cs-club-bot:$(date +%s)
+      run: docker build --build-arg CLIENT_ID=$CLIENT_ID --build-arg TOKEN=$TOKEN . --file Dockerfile --tag cs-club-bot:$(date +%s)
