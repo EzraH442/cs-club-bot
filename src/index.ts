@@ -4,6 +4,7 @@ dotenv.config()
 
 if (!process.env.TOKEN || !process.env.CLIENT_ID) {
   console.log('please get the env file from ezra huang: ezrahuang155@gmail.com')
+  process.exit(1);
 }
 
 const commands = [

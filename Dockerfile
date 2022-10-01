@@ -3,6 +3,8 @@ FROM node:latest
 RUN mkdir -p /usr/src/bot
 WORKDIR /usr/src/bot
 
+ARG TOKEN
+ARG CLIENT_ID
 ENV TOKEN=$TOKEN
 ENV CLIENT_ID=$CLIENT_ID
 
