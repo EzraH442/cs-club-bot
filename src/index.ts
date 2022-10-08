@@ -9,7 +9,10 @@ if (!process.env.TOKEN || !process.env.CLIENT_ID) {
   process.exit(1);
 }
 
-const commands = [{ name: "ping", description: "Replies with Pong!" }];
+const commands = [
+  { name: "ping", description: "Replies with Pong!" },
+  { name: "pong", description: "Replies with Ping!" },
+];
 
 const rest = new REST({ version: "10" }).setToken(process.env.TOKEN!);
 
