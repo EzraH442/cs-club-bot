@@ -10,6 +10,7 @@ if (!process.env.TOKEN || !process.env.CLIENT_ID) {
 }
 
 const commands = [{ name: "ping", description: "Replies with Pong!" }];
+// test
 
 const rest = new REST({ version: "10" }).setToken(process.env.TOKEN!);
 
