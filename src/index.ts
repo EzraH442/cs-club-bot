@@ -66,7 +66,21 @@ client.on("interactionCreate", async (interaction) => {
     await interaction.reply("Here is the Linktree: https://linktr.ee/westerncsclub")
   //Return a list of commands
   } else if (interaction.commandName === "help"){
-    await interaction.reply("")
+    let commandListString = ""
+    for(let i = 0; i < commands.length; i++){
+      commandListString += `**${commands[i].name}:** ${commands[i].description}\n`
+    }
+    let helpEmbed = {
+      title:"Help:",
+      fields:[
+        {
+          name:"Commands:",
+          value: commandListString
+        }
+      ]
+
+    }
+    await interaction.reply({embeds:[helpEmbed]})
   } else if (interaction.commandName === "lastlesson"){
     await interaction.reply("Filler Text")
   } else if (interaction.commandName === "leaderboard"){
@@ -81,7 +95,7 @@ import axios from "axios";
 import { meetingDates } from "./data";
 
 makeCodeforcesApiCall("/contest.list", {})
-  .then((data) => {
+.then((data) => {
     console.log(data.data);
   })
   .catch((e) => console.log(e));
