@@ -14,29 +14,22 @@ const getUNIXTime = () => Math.floor(Date.now() / 1000).toString();
 const randomSixDigits = () =>
   Math.floor(100000 + Math.random() * 900000).toString();
 
-const sortParams = (params: Record<string, string | number | boolean>) => {
+type Params = Record<string, string | number | boolean>;
+
+const sortParams = (params: Params) => {
   const sorted: Record<string, string> = {};
 
-  [...Object.entries(params)]
-    .sort((a, b) => {
-      if (a[0] > b[0]) return 1;
-      else if (a[0] > b[0]) return -1;
-      return 0;
-    })
-    .forEach(([k, v]) => {
-      sorted[k] = v.toString();
-    });
+  [...Object.keys(params)].sort().forEach((k) => {
+    sorted[k] = params[k].toString();
+  });
 
   return sorted;
 };
 
-const makeCodeforcesApiCall = (
-  path: string,
-  params: Record<string, string | boolean | number>
-) => {
+const makeCodeforcesApiCall = (path: string, params: Params) => {
   const random = randomSixDigits();
 
-  const codeforcesParams: Record<string, any> = {
+  const codeforcesParams: Params = {
     apiKey: ID,
     time: getUNIXTime(),
     ...params,
@@ -45,16 +38,12 @@ const makeCodeforcesApiCall = (
   const sorted = sortParams(codeforcesParams);
 
   const hashParams = new URLSearchParams(sorted).toString();
-
-  const sig = computeSignature(
-    `${random}/${BASE_URL}${path}?${hashParams}#${SECRET}`
-  );
+  const signatureHashText = `${random}${path}?${hashParams}#${SECRET}`;
+  const sig = computeSignature(signatureHashText);
 
   codeforcesParams.apiSig = `${random}${sig}`;
 
   const finalParams = sortParams(codeforcesParams);
-
-  console.log(new URLSearchParams(finalParams).toString());
 
   return axios.get(`${BASE_URL}${path}`, { params: finalParams });
 };
