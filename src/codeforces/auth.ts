@@ -14,8 +14,8 @@ const getUNIXTime = () => Math.floor(Date.now() / 1000).toString();
 const randomSixDigits = () =>
   Math.floor(100000 + Math.random() * 900000).toString();
 
-const sortParams = (params: Record<string, any>) => {
-  const sorted: Record<string, any> = {};
+const sortParams = (params: Record<string, string | number | boolean>) => {
+  const sorted: Record<string, string> = {};
 
   [...Object.entries(params)]
     .sort((a, b) => {
@@ -24,7 +24,7 @@ const sortParams = (params: Record<string, any>) => {
       return 0;
     })
     .forEach(([k, v]) => {
-      sorted[k] = v;
+      sorted[k] = v.toString();
     });
 
   return sorted;
@@ -39,11 +39,8 @@ const makeCodeforcesApiCall = (
   const codeforcesParams: Record<string, any> = {
     apiKey: ID,
     time: getUNIXTime(),
+    ...params,
   };
-
-  for (const [k, v] of Object.entries(params)) {
-    codeforcesParams[k] = v.toString();
-  }
 
   const sorted = sortParams(codeforcesParams);
 
@@ -55,11 +52,7 @@ const makeCodeforcesApiCall = (
 
   codeforcesParams.apiSig = `${random}${sig}`;
 
-  const finalParams = [...Object.entries(sorted)].sort((a, b) => {
-    if (a[0] > b[0]) return 1;
-    else if (a[0] > b[0]) return -1;
-    return 0;
-  });
+  const finalParams = sortParams(codeforcesParams);
 
   console.log(new URLSearchParams(finalParams).toString());
 
