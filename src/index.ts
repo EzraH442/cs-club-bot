@@ -12,7 +12,6 @@ if (!process.env.TOKEN || !process.env.CLIENT_ID) {
 
 //LIST OF FUTURE COMMANDS...
 //Last lesson slide
-//Help
 //Leaderboard
 //Codeforces - link handle, check graph
 //  { name: "", description: ""},
@@ -28,7 +27,6 @@ const commands = [
   { name: "leaderboard", description: "Replies with codeforces leaderboard." },
   { name: "codeforces", description: "Replies with codeforces information." },
 ];
-// test
 
 const rest = new REST({ version: "10" }).setToken(process.env.TOKEN!);
 
@@ -47,7 +45,11 @@ const rest = new REST({ version: "10" }).setToken(process.env.TOKEN!);
 })();
 
 import { Client, GatewayIntentBits } from "discord.js";
-import { getContestInfo, getGymContests } from "./codeforces/methods";
+import {
+  getContestInfo,
+  getGymContests,
+  getTopTenParticipants,
+} from "./codeforces/methods";
 import { meetingDates } from "./data";
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -101,6 +103,10 @@ client.login(process.env.TOKEN);
 (async () => {
   // const contests = await getGymContests();
   // console.log(contests);
-  const info = await getContestInfo(377892);
-  console.log(info);
+  try {
+    const info = await getTopTenParticipants(377892);
+    console.log(info);
+  } catch (e) {
+    console.log(e);
+  }
 })();
