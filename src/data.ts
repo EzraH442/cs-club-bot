@@ -19,6 +19,90 @@ const meetingDates = [
     "20230602",
 ]
 
+interface Meeting {
+    date: string;
+    slidesLink: string;
+}
+
+const meetings: Meeting[] = [
+    {
+        date : "20221008",
+        slidesLink: "There has not been a meeting yet.",
+    },
+    {
+        date : "20221014",
+        slidesLink: "Slides unavailable",
+    },
+    {
+        date : "20221021",
+        slidesLink: "Slides unavailable",
+    },
+    {
+        date : "20221104",
+        slidesLink: "Slides unavailable",
+    },
+    {
+        date : "20221118",
+        slidesLink: "Slides unavailable",
+    },
+    {
+        date : "20221202",
+        slidesLink: "Slides unavailable",
+    },
+    {
+        date : "20221209",
+        slidesLink: "Slides unavailable",
+    },
+    {
+        date : "20221216",
+        slidesLink: "Slides unavailable",
+    },
+    {
+        date : "20230210",
+        slidesLink: "Slides unavailable",
+    },
+    {
+        date : "20230224",
+        slidesLink: "Slides unavailable",
+    },
+    {
+        date : "20230303",
+        slidesLink: "Slides unavailable",
+    },
+    {
+        date : "20230317",
+        slidesLink: "Slides unavailable",
+    },
+    {
+        date : "20230414",
+        slidesLink: "Slides unavailable",
+    },
+    {
+        date : "20230421",
+        slidesLink: "Slides unavailable",
+    },
+    {
+        date : "20230428",
+        slidesLink: "Slides unavailable",
+    },
+    {
+        date : "20230512",
+        slidesLink: "Slides unavailable",
+    },
+    {
+        date : "20230519",
+        slidesLink: "Slides unavailable",
+    },
+    {
+        date : "20230525",
+        slidesLink: "Slides unavailable",
+    },
+    {
+        date : "20230602",
+        slidesLink: "Slides unavailable",
+    },
+]
+
 const months = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-export { meetingDates, months };
+export { meetingDates, months, meetings };
