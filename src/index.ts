@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import dateToText from "./dateToText";
 import currentDate from "./currentDate";
+import { meetings } from "./data";
 if (!process.env.TOKEN || !process.env.CLIENT_ID) {
   console.log(
     "please get the env file from ezra huang: ezrahuang155@gmail.com"
@@ -20,7 +21,7 @@ const commands = [
   { name: "meeting", description: "Replies with the next meeting date." },
   { name: "linktree", description: "Replies with the linktree link." },
   {
-    name: "lastlesson",
+    name: "lastmeeting",
     description: "Replies with the previous lesson slides.",
   },
   { name: "help", description: "Replies with all possible commands." },
@@ -91,8 +92,15 @@ client.on("interactionCreate", async (interaction) => {
       ],
     };
     await interaction.reply({ embeds: [helpEmbed] });
-  } else if (interaction.commandName === "lastlesson") {
-    await interaction.reply("Filler Text");
+  } else if (interaction.commandName === "lastmeeting") {
+    for (let i = 0; i < meetings.length; i++) {
+      if (meetings[i].date >= currentDate()) {
+        await interaction.reply(
+          `Here is the last club lesson: ${meetings[i].slidesLink}`
+        );
+        break;
+      }
+    }
   } else if (interaction.commandName === "leaderboard") {
     await interaction.reply("Filler Text");
   }
