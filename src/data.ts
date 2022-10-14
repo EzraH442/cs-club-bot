@@ -31,7 +31,7 @@ const meetings: Meeting[] = [
     },
     {
         date : "20221014",
-        slidesLink: "Slides unavailable",
+        slidesLink: "https://docs.google.com/presentation/d/18lyzxA8Vk_yZUFLdrHtj-h_IdQmxWms-kgt19qTWD9I/edit?usp=sharing",
     },
     {
         date : "20221021",
