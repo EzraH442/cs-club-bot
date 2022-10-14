@@ -64,7 +64,7 @@ client.on("interactionCreate", async (interaction) => {
   //Return message with the date of the next CS club meeting
   if (interaction.commandName === "meeting") {
     for (let i = 0; i < meetingDates.length; i++) {
-      if (meetingDates[i] >= currentDate()) {
+      if (meetingDates[i] > currentDate()) {
         await interaction.reply(
           "The next CS Club meeting is on " + dateToText(meetingDates[i])
         );
@@ -94,7 +94,7 @@ client.on("interactionCreate", async (interaction) => {
     await interaction.reply({ embeds: [helpEmbed] });
   } else if (interaction.commandName === "lastmeeting") {
     for (let i = 0; i < meetings.length; i++) {
-      if (meetings[i].date >= currentDate()) {
+      if (meetings[i].date > currentDate()) {
         await interaction.reply(
           `Here is the last club lesson: ${meetings[i].slidesLink}`
         );
