@@ -18,15 +18,11 @@ if (!process.env.TOKEN || !process.env.CLIENT_ID) {
 //  { name: "", description: ""},
 
 const commands = [
-  { name: "meeting", description: "Replies with the next meeting date." },
-  { name: "linktree", description: "Replies with the linktree link." },
-  {
-    name: "lastmeeting",
-    description: "Replies with the previous lesson slides.",
-  },
-  { name: "help", description: "Replies with all possible commands." },
-  { name: "leaderboard", description: "Replies with codeforces leaderboard." },
-  { name: "codeforces", description: "Replies with codeforces information." },
+  { name: "help", description: "Replies with all possible commands."},
+  { name: "nextmeeting", description: "Replies with the next meeting date."},
+  { name: "lastmeeting", description: "Replies with the previous lesson slides."},
+  { name: "linktree", description: "Replies with the linktree link."},
+  { name: "leaderboard", description: "Replies with codeforces leaderboard."}
 ];
 
 const rest = new REST({ version: "10" }).setToken(process.env.TOKEN!);
