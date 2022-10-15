@@ -1,3 +1,4 @@
+import CodeforcesCommand from "./commands/codeforces";
 import HelpCommand from "./commands/help";
 import LastMeetingCommand from "./commands/lastmeeting";
 import LeaderboardCommand from "./commands/leaderboard";
@@ -10,6 +11,7 @@ const commandList = [
     LeaderboardCommand,
     LinktreeCommand,
     MeetingCommand,
+    CodeforcesCommand,
 ];
 
 const commandMap = new Map(
