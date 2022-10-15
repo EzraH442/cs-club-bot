@@ -1,14 +1,22 @@
-import { REST, Routes } from "discord.js";
+import { REST, Routes, Client, GatewayIntentBits } from "discord.js";
 import dotenv from "dotenv";
 dotenv.config();
+
 import dateToText from "./dateToText";
 import currentDate from "./currentDate";
-import { meetings } from "./data";
+import {
+    getContestInfo,
+    getGymContests,
+    getTopTenParticipants,
+} from "./codeforces/methods";
+import { meetings, meetingDates } from "./data";
+import { commandList, commandMap } from "./commands";
+
 if (!process.env.TOKEN || !process.env.CLIENT_ID) {
-  console.log(
-    "please get the env file from ezra huang: ezrahuang155@gmail.com"
-  );
-  process.exit(1);
+    console.log(
+        "please get the env file from ezra huang: ezrahuang155@gmail.com"
+    );
+    process.exit(1);
 }
 
 //LIST OF FUTURE COMMANDS...
@@ -17,105 +25,55 @@ if (!process.env.TOKEN || !process.env.CLIENT_ID) {
 //Codeforces - link handle, check graph
 //  { name: "", description: ""},
 
-const commands = [
-  { name: "meeting", description: "Replies with the next meeting date." },
-  { name: "linktree", description: "Replies with the linktree link." },
-  {
-    name: "lastmeeting",
-    description: "Replies with the previous lesson slides.",
-  },
-  { name: "help", description: "Replies with all possible commands." },
-  { name: "leaderboard", description: "Replies with codeforces leaderboard." },
-  { name: "codeforces", description: "Replies with codeforces information." },
-];
-
 const rest = new REST({ version: "10" }).setToken(process.env.TOKEN!);
 
 (async () => {
-  try {
-    console.log("Started refreshing application (/) commands.");
+    try {
+        console.log("Started refreshing application (/) commands.");
 
-    await rest.put(Routes.applicationCommands(process.env.CLIENT_ID!), {
-      body: commands,
-    });
+        const commandInfo = commandList.map((command) => {
+            return {
+                name: command.name,
+                description: command.description,
+            };
+        });
 
-    console.log("Successfully reloaded application (/) commands.");
-  } catch (error) {
-    console.error(error);
-  }
+        await rest.put(Routes.applicationCommands(process.env.CLIENT_ID!), {
+            body: commandInfo,
+        });
+
+        console.log("Successfully reloaded application (/) commands.");
+    } catch (error) {
+        console.error(error);
+    }
 })();
 
-import { Client, GatewayIntentBits } from "discord.js";
-import {
-  getContestInfo,
-  getGymContests,
-  getTopTenParticipants,
-} from "./codeforces/methods";
-import { meetingDates } from "./data";
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 client.on("ready", () => {
-  console.log(`Logged in as ${client.user!.tag}!`);
+    console.log(`Logged in as ${client.user!.tag}!`);
 });
 
 client.on("interactionCreate", async (interaction) => {
-  if (!interaction.isChatInputCommand()) return;
+    if (!interaction.isChatInputCommand()) return;
 
-  //Return message with the date of the next CS club meeting
-  if (interaction.commandName === "meeting") {
-    for (let i = 0; i < meetingDates.length; i++) {
-      if (meetingDates[i] > currentDate()) {
-        await interaction.reply(
-          "The next CS Club meeting is on " + dateToText(meetingDates[i + 1])
-        );
-        break;
-      }
-    }
-    //Return message with linktree
-  } else if (interaction.commandName === "linktree") {
-    await interaction.reply(
-      "Here is the Linktree: https://linktr.ee/westerncsclub"
-    );
-    //Return a list of commands
-  } else if (interaction.commandName === "help") {
-    let commandListString = "";
-    for (let i = 0; i < commands.length; i++) {
-      commandListString += `**${commands[i].name}:** ${commands[i].description}\n`;
-    }
-    let helpEmbed = {
-      title: "Help:",
-      fields: [
-        {
-          name: "Commands:",
-          value: commandListString,
-        },
-      ],
-    };
-    await interaction.reply({ embeds: [helpEmbed] });
-    //Return the last meeting slides
-  } else if (interaction.commandName === "lastmeeting") {
-    for (let i = 0; i < meetings.length; i++) {
-      if (meetings[i].date > currentDate()) {
-        await interaction.reply(
-          `Here is the last club lesson: ${meetings[i + 1].slidesLink}`
-        );
-        break;
-      }
-    }
-  } else if (interaction.commandName === "leaderboard") {
-    await interaction.reply("Filler Text");
-  }
+    const command = commandMap.get(interaction.commandName);
+
+    // not a known command so ignore it
+    if (!command) return;
+
+    await command.handler(interaction);
 });
 
 client.login(process.env.TOKEN);
 
 (async () => {
-  // const contests = await getGymContests();
-  // console.log(contests);
-  try {
-    const info = await getTopTenParticipants(377892);
-    console.log(info);
-  } catch (e) {
-    console.log(e);
-  }
+    // const contests = await getGymContests();
+    // console.log(contests);
+    try {
+        const info = await getTopTenParticipants(377892);
+        console.log(info);
+    } catch (e) {
+        console.log(e);
+    }
 })();
