@@ -1,7 +1,4 @@
-import {
-  getMostRecentContest,
-  getTopTenParticipants,
-} from "../codeforces/methods";
+import { getStandings } from "../codeforces/methods";
 import { BotCommand } from "./command.types";
 
 const LeaderboardCommand: BotCommand = {
@@ -10,14 +7,20 @@ const LeaderboardCommand: BotCommand = {
   async handler(interaction) {
     await interaction.deferReply();
     try {
-      const id = (await getMostRecentContest()).id;
-      const info = await getTopTenParticipants(id);
+      const standings = [...Object.entries(await getStandings())];
 
-      console.log(info);
+      const sorted = standings
+        .sort(([_, score1], [__, score2]) => {
+          if (score2 > score1) return 1;
+          else if (score1 > score2) return -1;
+          return 0;
+        })
+        .slice(0, 10);
+      console.log(sorted);
       let handlesString = "";
       let scoreString = "";
 
-      info.map(({ handle, points }) => {
+      sorted.map(([handle, points]) => {
         handlesString += `${handle}\n`;
         scoreString += `${points}\n`;
       });
