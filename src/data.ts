@@ -34,12 +34,12 @@ const meetings: Meeting[] = [
     {
         date : "20221014",
         slidesLink: "https://docs.google.com/presentation/d/18lyzxA8Vk_yZUFLdrHtj-h_IdQmxWms-kgt19qTWD9I/edit?usp=sharing",
-        gym: "Gym unavailable",
+        gym: "https://codeforces.com/contestInvitation/48f075950994084e022b4a2eb69b9be1d118dba8",
     },
     {
         date : "20221021",
         slidesLink: "Slides unavailable",
-        gym: "Gym unavailable",
+        gym: "https://codeforces.com/contestInvitation/48f075950994084e022b4a2eb69b9be1d118dba8",
     },
     {
         date : "20221104",
