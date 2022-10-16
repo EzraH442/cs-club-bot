@@ -26,7 +26,6 @@ const getContestInfo = (contestId: number) =>
 
 const getTopTenParticipants = (contestId: number) =>
   getContestInfo(contestId).then((results) => {
-    console.log(results);
     return results.rows.map((row) => {
       const handle = row.party.members[0].handle; // assume one part
       const points = row.points;
@@ -39,4 +38,23 @@ const getTopTenParticipants = (contestId: number) =>
     });
   });
 
-export { getGymContests, getContestInfo, getTopTenParticipants };
+const getMostRecentContest = () => {
+  return getGymContests()
+    .then((contests) => contests.filter((c) => !!c.startTimeSeconds))
+    .then((contests) => {
+      let mostRecentIndex = 0;
+      const mostRecentTime = contests[0].startTimeSeconds!;
+
+      contests.map((c, i) => {
+        if (c.startTimeSeconds! > mostRecentTime) mostRecentIndex = i;
+      });
+      return contests[mostRecentIndex];
+    });
+};
+
+export {
+  getGymContests,
+  getContestInfo,
+  getTopTenParticipants,
+  getMostRecentContest,
+};
