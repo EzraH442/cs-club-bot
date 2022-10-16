@@ -11,7 +11,7 @@ const LastMeetingCommand: BotCommand = {
             if (meetings[i].date > currentDate()) {
                 await interaction.reply(
                     `Last week's lesson: ${meetings[i + 1].slidesLink}\n` + 
-                    `Last week's codeforces gym: ${meetings[i + 1].gym}`
+                    `Last week's codeforces gym: ${meetings[i + 1].gym}` 
                 );
                 break;
             }
