@@ -2,14 +2,6 @@ import { REST, Routes, Client, GatewayIntentBits } from "discord.js";
 import dotenv from "dotenv";
 dotenv.config();
 
-import dateToText from "./dateToText";
-import currentDate from "./currentDate";
-import {
-    getContestInfo,
-    getGymContests,
-    getTopTenParticipants,
-} from "./codeforces/methods";
-import { meetings, meetingDates } from "./data";
 import { commandList, commandMap } from "./commands";
 
 if (!process.env.TOKEN || !process.env.CLIENT_ID) {
@@ -66,14 +58,3 @@ client.on("interactionCreate", async (interaction) => {
 });
 
 client.login(process.env.TOKEN);
-
-(async () => {
-    // const contests = await getGymContests();
-    // console.log(contests);
-    try {
-        const info = await getTopTenParticipants(377892);
-        console.log(info);
-    } catch (e) {
-        console.log(e);
-    }
-})();
