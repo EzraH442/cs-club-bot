@@ -1,3 +1,4 @@
+import { textChangeRangeNewSpan } from "typescript";
 import { makeCodeforcesApiCall } from "./auth";
 import { Contest, Problem, RanklistRow } from "./types";
 
@@ -14,7 +15,7 @@ const getContestInfo = (contestId: number) =>
   makeCodeforcesApiCall("/contest.standings", {
     contestId,
     from: 1,
-    count: 10,
+    count: 50,
   }).then(
     (data) =>
       data.data.result as {
@@ -24,19 +25,38 @@ const getContestInfo = (contestId: number) =>
       }
   );
 
-const getTopTenParticipants = (contestId: number) =>
+const getParticipants = (contestId: number) =>
   getContestInfo(contestId).then((results) => {
-    console.log(results);
     return results.rows.map((row) => {
-      const handle = row.party.members[0].handle; // assume one part
-      const points = row.points;
-      const penalty = row.penalty;
       return {
-        handle,
-        points,
-        penalty,
+        handle: row.party.members[0].handle,
+        points: row.points,
       };
     });
   });
 
-export { getGymContests, getContestInfo, getTopTenParticipants };
+const getStandings = () => {
+  return getGymContests()
+    .then((contests) =>
+      contests.filter((c) => !!c.startTimeSeconds && c.name.includes("WCHS"))
+    )
+    .then(async (contests) => {
+      let standings: Record<string, number> = {};
+      await Promise.all(
+        contests.map((contest) => getContestInfo(contest.id))
+      ).then((results) => {
+        results.map((result) => {
+          result.rows.forEach((row) => {
+            const handle = row.party.members[0].handle;
+            const score = row.points;
+            standings[handle] = !!standings[handle]
+              ? standings[handle] + score
+              : score;
+          });
+        });
+      });
+      return standings;
+    });
+};
+
+export { getGymContests, getContestInfo, getParticipants, getStandings };
