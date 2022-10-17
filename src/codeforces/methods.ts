@@ -39,7 +39,7 @@ const getStandings = () => {
   return getGymContests()
     .then((contests) =>
       contests.filter(
-        (c) => !!c.startTimeSeconds && c.name.includes("WCHS Club Week")
+        (c) => !!c.startTimeSeconds && c.name.includes("WCHS CS Club Week")
       )
     )
     .then(async (contests) => {
