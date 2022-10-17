@@ -38,7 +38,9 @@ const getParticipants = (contestId: number) =>
 const getStandings = () => {
   return getGymContests()
     .then((contests) =>
-      contests.filter((c) => !!c.startTimeSeconds && c.name.includes("WCHS"))
+      contests.filter(
+        (c) => !!c.startTimeSeconds && c.name.includes("WCHS Club Week")
+      )
     )
     .then(async (contests) => {
       let standings: Record<string, number> = {};
