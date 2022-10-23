@@ -1,4 +1,3 @@
-import { textChangeRangeNewSpan } from "typescript";
 import { makeCodeforcesApiCall } from "./auth";
 import { Contest, Problem, RanklistRow } from "./types";
 

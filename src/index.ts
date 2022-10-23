@@ -1,18 +1,22 @@
-import { REST, Routes, Client, GatewayIntentBits } from "discord.js";
 import dotenv from "dotenv";
 dotenv.config();
 
+import { REST, Routes, Client, GatewayIntentBits } from "discord.js";
 import { commandList, commandMap } from "./commands";
 
-if (!process.env.TOKEN || !process.env.CLIENT_ID) {
+const GUILD_ID = "894376022861041714";
+
+if (
+  !process.env.TOKEN ||
+  !process.env.CLIENT_ID ||
+  !process.env.CF_ID ||
+  !process.env.CF_SECRET
+) {
   console.log(
     "please get the env file from ezra huang: ezrahuang155@gmail.com"
   );
   process.exit(1);
 }
-
-//Codeforces - link handle, check graph
-//  { name: "", description: ""},
 
 const rest = new REST({ version: "10" }).setToken(process.env.TOKEN!);
 
@@ -20,21 +24,11 @@ const rest = new REST({ version: "10" }).setToken(process.env.TOKEN!);
   try {
     console.log("Started refreshing application (/) commands.");
 
-    const commandInfo = commandList.map((command) => {
-      return {
-        name: command.name,
-        description: command.description,
-      };
-    });
+    const commandInfo = commandList.map((command) => command.getCommandInfo());
 
     await rest.put(
-      Routes.applicationGuildCommands(
-        process.env.CLIENT_ID!,
-        "894376022861041714"
-      ),
-      {
-        body: commandInfo,
-      }
+      Routes.applicationGuildCommands(process.env.CLIENT_ID!, GUILD_ID),
+      { body: commandInfo }
     );
 
     console.log("Successfully reloaded application (/) commands.");
@@ -52,12 +46,13 @@ client.on("ready", () => {
 client.on("interactionCreate", async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
-  const command = commandMap.get(interaction.commandName);
+  const command = commandMap.get(interaction.commandName)!;
 
-  // not a known command so ignore it
-  if (!command) return;
-
-  await command.handler(interaction);
+  try {
+    await command.handler(interaction);
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 client.login(process.env.TOKEN).then(() => {

@@ -1,11 +1,11 @@
-import { BotCommand } from "./command.types";
+import { BotCommandConfig } from "./BotCommand";
 
-const CodeforcesCommand: BotCommand = {
-    name: "codeforces",
-    description: "Replies with codeforces information.",
-    async handler(interaction) {
-        await interaction.reply("Not implemented.");
-    },
+const CodeforcesCommand: BotCommandConfig = {
+  name: "codeforces",
+  description: "Replies with codeforces information.",
+  handler: async (interaction) => {
+    await interaction.reply("Not implemented.");
+  },
 };
 
 export default CodeforcesCommand;

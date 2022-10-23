@@ -1,29 +1,28 @@
-import { BotCommand } from "./command.types";
+import { commandList } from "../commands";
+import { BotCommandConfig } from "./BotCommand";
 
-import { commandMap } from "../commands";
+const HelpCommand: BotCommandConfig = {
+  name: "help",
+  description: "Replies with all possible commands.",
+  handler: async (interaction) => {
+    let commandListString = "";
 
-const HelpCommand: BotCommand = {
-    name: "help",
-    description: "Replies with all possible commands.",
-    async handler(interaction) {
-        let commandListString = "";
+    commandList.forEach((command) => {
+      commandListString += `**${command.name}:** ${command.description}\n`;
+    });
 
-        for (const command of commandMap.values()) {
-            commandListString += `**${command.name}:** ${command.description}\n`;
-        }
+    let helpEmbed = {
+      title: "Help:",
+      fields: [
+        {
+          name: "Commands:",
+          value: commandListString,
+        },
+      ],
+    };
 
-        let helpEmbed = {
-            title: "Help:",
-            fields: [
-                {
-                    name: "Commands:",
-                    value: commandListString,
-                },
-            ],
-        };
-
-        await interaction.reply({ embeds: [helpEmbed] });
-    },
+    await interaction.reply({ embeds: [helpEmbed] });
+  },
 };
 
 export default HelpCommand;
