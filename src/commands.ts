@@ -15,7 +15,7 @@ const commandList = [
 ];
 
 const commandMap = new Map<string, BotCommand>(
-  commandList.map((command) => command.getMapEntry())
+  commandList.map((command) => command.getMapEntry()),
 );
 
 export { commandList, commandMap };

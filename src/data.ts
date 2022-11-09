@@ -1,14 +1,15 @@
 interface Meeting {
   // YYYY-MM-DD or YYYYMMDD
   date: string;
-  slidesLink?: string;
-  gymLink?: string;
+
+  slidesLink: string | null;
+  gymLink: string | null;
 }
 
 const meetings: Meeting[] = [
   {
     date: "20221008",
-    slidesLink: "There has not been a meeting yet.",
+    slidesLink: null,
     gymLink:
       "https://codeforces.com/contestInvitation/48f075950994084e022b4a2eb69b9be1d118dba8",
   },
@@ -21,89 +22,92 @@ const meetings: Meeting[] = [
   },
   {
     date: "20221021",
-    slidesLink: "Slides unavailable",
+    slidesLink:
+      "https://docs.google.com/presentation/d/1TiBphwP4SWQFurJkFruVEnCJJ42K_aOAlUGYcRReIUY/edit?usp=sharing",
     gymLink:
       "https://codeforces.com/contestInvitation/48f075950994084e022b4a2eb69b9be1d118dba8",
   },
   {
     date: "20221104",
-    slidesLink: "Slides unavailable",
-    gymLink: "Gym unavailable",
+    slidesLink:
+      "https://docs.google.com/presentation/d/1QO0ir7D04oZEwlt5zd3F2-fmS4EPPMA8JYFM3NLCoEE/edit?usp=sharing",
+    gymLink:
+      "https://codeforces.com/contestInvitation/83fe6f7119413126cf367cc3f2767979c3cbbc85",
   },
   {
     date: "20221118",
-    slidesLink: "Slides unavailable",
-    gymLink: "Gym unavailable",
+    slidesLink: null,
+    gymLink: null,
   },
   {
     date: "20221202",
-    slidesLink: "Slides unavailable",
-    gymLink: "Gym unavailable",
+    slidesLink: null,
+    gymLink: null,
   },
   {
     date: "20221209",
-    slidesLink: "Slides unavailable",
-    gymLink: "Gym unavailable",
+    slidesLink: null,
+    gymLink: null,
   },
   {
     date: "20221216",
-    slidesLink: "Slides unavailable",
-    gymLink: "Gym unavailable",
+    slidesLink: null,
+    gymLink: null,
   },
   {
     date: "20230210",
-    slidesLink: "Slides unavailable",
-    gymLink: "Gym unavailable",
+    slidesLink: null,
+    gymLink: null,
   },
   {
     date: "20230224",
-    slidesLink: "Slides unavailable",
-    gymLink: "Gym unavailable",
+    slidesLink: null,
+    gymLink: null,
   },
   {
     date: "20230303",
-    slidesLink: "Slides unavailable",
-    gymLink: "Gym unavailable",
+    slidesLink: null,
+    gymLink: null,
   },
   {
     date: "20230317",
-    slidesLink: "Slides unavailable",
-    gymLink: "Gym unavailable",
+    slidesLink: null,
+    gymLink: null,
   },
   {
     date: "20230414",
-    slidesLink: "Slides unavailable",
-    gymLink: "Gym unavailable",
+    slidesLink: null,
+    gymLink: null,
   },
   {
     date: "20230421",
-    slidesLink: "Slides unavailable",
-    gymLink: "Gym unavailable",
+    slidesLink: null,
+    gymLink: null,
   },
   {
     date: "20230428",
-    slidesLink: "Slides unavailable",
-    gymLink: "Gym unavailable",
+    slidesLink: null,
+    gymLink: null,
   },
   {
     date: "20230512",
-    slidesLink: "Slides unavailable",
-    gymLink: "Gym unavailable",
+    slidesLink: null,
+    gymLink: null,
   },
   {
     date: "20230519",
-    slidesLink: "Slides unavailable",
-    gymLink: "Gym unavailable",
+    slidesLink: null,
+    gymLink: null,
   },
   {
     date: "20230525",
-    slidesLink: "Slides unavailable",
-    gymLink: "Gym unavailable",
+    slidesLink: null,
+    gymLink: null,
   },
   {
     date: "20230602",
-    slidesLink: "Slides unavailable",
-    gymLink: "Gym unavailable",
+    slidesLink: null,
+    gymLink: null,
   },
 ];
 

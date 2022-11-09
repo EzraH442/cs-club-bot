@@ -4,7 +4,7 @@ import { meetings } from "./data";
 const getNextMeetingIndex = () => {
   const currentDate = dayjs();
   return meetings.findIndex((meeting) =>
-    currentDate.isBefore(dayjs(meeting.date))
+    currentDate.isBefore(dayjs(meeting.date)),
   );
 };
 
@@ -34,3 +34,7 @@ export const getNextMeeting = () => {
 
   return meetings[getNextMeetingIndex()];
 };
+
+export const formatMeetingDate = (meetingDate: string) => {
+  return dayjs(meetingDate).format("MMMM D, YYYY");
+}

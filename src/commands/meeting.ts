@@ -1,5 +1,4 @@
-import dayjs from "dayjs";
-import { getNextMeeting } from "../helpers";
+import { formatMeetingDate, getNextMeeting } from "../helpers";
 import { BotCommandConfig } from "./BotCommand";
 
 const MeetingCommand: BotCommandConfig = {
@@ -9,10 +8,8 @@ const MeetingCommand: BotCommandConfig = {
     const nextMeeting = getNextMeeting();
     await interaction.reply(
       nextMeeting
-        ? `The next CS Club meeting is on ${dayjs(nextMeeting.date).format(
-            "MMMM D, YYYY"
-          )}`
-        : "There are no more CS Club Meetings! Have a great summer!"
+        ? `The next meeting is on \`${formatMeetingDate(nextMeeting.date)}\``
+        : "There are no more meetings! Have a great summer!",
     );
   },
 };

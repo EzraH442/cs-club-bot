@@ -28,13 +28,12 @@ const LeaderboardCommandConfig: BotCommandConfig = {
     //standingsEmbeds[i] contains a discord embed of the ith page of the leaderboard
     let standingsEmbeds: Object[] = [];
 
-    //standingsEmbedPage contains the current page being displayed 
+    //standingsEmbedPage contains the current page being displayed
     let standingsEmbedPage = 0;
 
     //Each page contains a max of ten handles and scores
     for (let page = 0; page < Math.ceil(sorted.length / 10); page++) {
-
-      //Split handles into 10 lines to display 
+      //Split handles into 10 lines to display
       let handlesString = "";
       handles
         .slice(page * 10, page * 10 + Math.min(handles.length - page * 10, 10))
@@ -69,17 +68,17 @@ const LeaderboardCommandConfig: BotCommandConfig = {
 
     //Action row for previous and next page
     const actionRow = new ActionRowBuilder().addComponents(
-        new ButtonBuilder()
-          .setCustomId("previous")
-          .setEmoji("⬅️")
-          .setStyle(ButtonStyle.Primary)
-          .setDisabled(standingsEmbedPage === 0),
-        new ButtonBuilder()
-          .setCustomId("next")
-          .setEmoji("➡️")
-          .setStyle(ButtonStyle.Primary)
-          .setDisabled(standingsEmbedPage === standingsEmbeds.length - 1)
-      );
+      new ButtonBuilder()
+        .setCustomId("previous")
+        .setEmoji("⬅️")
+        .setStyle(ButtonStyle.Primary)
+        .setDisabled(standingsEmbedPage === 0),
+      new ButtonBuilder()
+        .setCustomId("next")
+        .setEmoji("➡️")
+        .setStyle(ButtonStyle.Primary)
+        .setDisabled(standingsEmbedPage === standingsEmbeds.length - 1),
+    );
     console.log(JSON.stringify(actionRow));
 
     const response = await interaction.editReply({
@@ -97,7 +96,7 @@ const LeaderboardCommandConfig: BotCommandConfig = {
     });
 
     //Button interaction handler
-    collector.on("collect", async collectorInteraction => {
+    collector.on("collect", async (collectorInteraction) => {
       await collectorInteraction.deferUpdate();
       if (collectorInteraction.customId === "previous") {
         //Go to previous page
@@ -110,7 +109,9 @@ const LeaderboardCommandConfig: BotCommandConfig = {
 
       //Update availability of buttons
       actionRow["components"][0].setDisabled(standingsEmbedPage === 0);
-      actionRow["components"][1].setDisabled(standingsEmbedPage === standingsEmbeds.length - 1)
+      actionRow["components"][1].setDisabled(
+        standingsEmbedPage === standingsEmbeds.length - 1,
+      );
       await collectorInteraction.editReply({
         embeds: [standingsEmbeds[standingsEmbedPage]],
         components: [actionRow],

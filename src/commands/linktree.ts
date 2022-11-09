@@ -5,7 +5,7 @@ const LinktreeCommand: BotCommandConfig = {
   description: "Replies with the linktree link.",
   async handler(interaction) {
     await interaction.reply(
-      "Here is the Linktree: https://linktr.ee/westerncsclub"
+      "Here is the Linktree: https://linktr.ee/westerncsclub",
     );
   },
 };
