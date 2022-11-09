@@ -13,7 +13,7 @@ if (
   !process.env.CF_SECRET
 ) {
   console.log(
-    "please get the env file from ezra huang: ezrahuang155@gmail.com"
+    "please get the env file from ezra huang: ezrahuang155@gmail.com",
   );
   process.exit(1);
 }
@@ -28,7 +28,7 @@ const rest = new REST({ version: "10" }).setToken(process.env.TOKEN!);
 
     await rest.put(
       Routes.applicationGuildCommands(process.env.CLIENT_ID!, GUILD_ID),
-      { body: commandInfo }
+      { body: commandInfo },
     );
 
     console.log("Successfully reloaded application (/) commands.");

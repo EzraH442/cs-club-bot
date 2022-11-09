@@ -1,26 +1,43 @@
-import { Meeting, meetings } from "../data";
+import { ActionRowBuilder, ButtonBuilder } from "@discordjs/builders";
+import { ButtonStyle } from "discord.js";
 
-import { getLastMeeting } from "../helpers";
+import { formatMeetingDate, getLastMeeting } from "../helpers";
 import { BotCommandConfig } from "./BotCommand";
-
-const makeReplyText = (meeting: Meeting) => {
-  return (
-    `Last week's lesson: ${meeting.slidesLink}\n` +
-    `Last week's Codeforces gym: ${meeting.gymLink}`
-  );
-};
 
 const LastMeetingCommandConfig: BotCommandConfig = {
   name: "lastmeeting",
   description: "Replies with the previous lesson slides.",
   handler: async (interaction) => {
-    let lastMeeting = getLastMeeting();
+    const lastMeeting = getLastMeeting();
 
-    await interaction.reply(
-      lastMeeting
-        ? makeReplyText(lastMeeting)
-        : "There hasn't beet a meeting yet"
+    if (!lastMeeting) {
+      interaction.reply("There has not been a meeting yet!");
+      return;
+    }
+
+    const { date, slidesLink, gymLink } = lastMeeting;
+
+    const slidesLinkButton = new ButtonBuilder()
+      .setStyle(ButtonStyle.Link)
+      .setLabel(`Lesson Slides ${slidesLink ? "" : "(Unavailable)"}`)
+      .setURL(slidesLink ?? "https://example.com")
+      .setDisabled(!slidesLink);
+
+    const gymLinkButton = new ButtonBuilder()
+      .setStyle(ButtonStyle.Link)
+      .setLabel(`Lesson Gym ${gymLink ? "" : "(Unavailable)"}`)
+      .setURL(gymLink ?? "https://example.com")
+      .setDisabled(!gymLink);
+
+    const linkActionRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+      slidesLinkButton,
+      gymLinkButton,
     );
+
+    await interaction.reply({
+      content: `The last meeting was on \`${formatMeetingDate(date)}\``,
+      components: [linkActionRow],
+    });
   },
 };
 

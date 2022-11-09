@@ -7,7 +7,7 @@ const getGymContests = () =>
   makeCodeforcesApiCall("/contest.list", { gym: true })
     .then((data) => data.data.result as Contest[])
     .then((results) =>
-      results.filter((e: any) => e.preparedBy === EXEC_USERNAME)
+      results.filter((e: any) => e.preparedBy === EXEC_USERNAME),
     );
 
 const getContestInfo = (contestId: number) =>
@@ -21,7 +21,7 @@ const getContestInfo = (contestId: number) =>
         contest: Contest;
         problems: Problem[];
         rows: RanklistRow[];
-      }
+      },
   );
 
 const getParticipants = (contestId: number) =>
@@ -38,13 +38,13 @@ const getStandings = () => {
   return getGymContests()
     .then((contests) =>
       contests.filter(
-        (c) => !!c.relativeTimeSeconds && c.name.includes("WCHS CS Club Week")
-      )
+        (c) => !!c.relativeTimeSeconds && c.name.includes("WCHS CS Club Week"),
+      ),
     )
     .then(async (contests) => {
       let standings: Record<string, number> = {};
       await Promise.all(
-        contests.map((contest) => getContestInfo(contest.id))
+        contests.map((contest) => getContestInfo(contest.id)),
       ).then((results) => {
         results.map((result) => {
           result.rows.forEach((row) => {
