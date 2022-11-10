@@ -1,7 +1,13 @@
-import { ButtonInteraction, ComponentType } from "discord.js";
+import {
+  ActionRowBuilder,
+  APIEmbed,
+  ButtonBuilder,
+  ButtonInteraction,
+  ButtonStyle,
+  ComponentType,
+} from "discord.js";
 import { getStandings } from "../codeforces/methods";
 import { BotCommandConfig } from "./BotCommand";
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 
 const LeaderboardCommandConfig: BotCommandConfig = {
   name: "leaderboard",
@@ -16,8 +22,8 @@ const LeaderboardCommandConfig: BotCommandConfig = {
       return 0;
     });
 
-    let handles: String[] = [];
-    let scores: String[] = [];
+    let handles: string[] = [];
+    let scores: string[] = [];
 
     //Push the handles and scores into their respective arrays as strings
     sorted.map(([handle, points]) => {
@@ -26,7 +32,7 @@ const LeaderboardCommandConfig: BotCommandConfig = {
     });
 
     //standingsEmbeds[i] contains a discord embed of the ith page of the leaderboard
-    let standingsEmbeds: Object[] = [];
+    let standingsEmbeds: APIEmbed[] = [];
 
     //standingsEmbedPage contains the current page being displayed
     let standingsEmbedPage = 0;
@@ -40,7 +46,6 @@ const LeaderboardCommandConfig: BotCommandConfig = {
         .map((handle) => {
           handlesString += `${handle}\n`;
         });
-      console.log(handlesString);
 
       //Split scores into 10 lines to display
       let scoresString = "";
@@ -49,7 +54,6 @@ const LeaderboardCommandConfig: BotCommandConfig = {
         .map((score) => {
           scoresString += `${score}\n`;
         });
-      console.log(scoresString);
 
       //Create standings embed page
       let standingsPage = {
@@ -67,7 +71,7 @@ const LeaderboardCommandConfig: BotCommandConfig = {
     }
 
     //Action row for previous and next page
-    const actionRow = new ActionRowBuilder().addComponents(
+    const actionRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
         .setCustomId("previous")
         .setEmoji("⬅️")
@@ -79,7 +83,6 @@ const LeaderboardCommandConfig: BotCommandConfig = {
         .setStyle(ButtonStyle.Primary)
         .setDisabled(standingsEmbedPage === standingsEmbeds.length - 1),
     );
-    console.log(JSON.stringify(actionRow));
 
     const response = await interaction.editReply({
       embeds: [standingsEmbeds[standingsEmbedPage]],
