@@ -26,5 +26,28 @@ pipeline {
         }
       }
     }
+
+    stage('deploy') {
+      when {
+        branch 'main'
+      }
+      steps {
+        withCredentials(bindings: [
+          string(credentialsId: 'TOKEN', variable: 'DISCORD_BOT_TOKEN'), 
+          string(credentialsId: 'CLIENT_ID', variable: 'DISCORD_BOT_CLIENT_ID'),
+          string(credentialsId: 'CF_ID', variable: 'CODEFORCES_API_ID'),
+          string(credentialsId: 'CF_SECRET', variable: 'CODEFORCES_API_SECRET')
+        ]) {
+          sh 'docker stop cs-club-bot:latest'
+          sh 'docker tag cs-club-bot:main-$(git log -1 --pretty=%h) cs-club-bot:latest'
+          sh 'docker run \
+            -e TOKEN=$DISCORD_BOT_TOKEN \
+            -e CLIENT_ID=$DISCORD_BOT_CLIENT_ID \
+            -e CF_ID=$CODEFORCES_API_ID \
+            -e CF_SECRET=$CODEFORCES_API_SECRET \
+            -d \
+            cs-club-bot:latest'
+      }
+    }
   }
 }
