@@ -12,9 +12,12 @@ pipeline {
         withCredentials([string(credentialsId: 'TOKEN', variable: 'DISCORD_BOT_TOKEN'), 
                          string(credentialsId: 'CLIENT_ID', variable: 'DISCORD_BOT_CLIENT_ID'),
                          string(credentialsId: 'CF_ID', variable: 'CODEFORCES_API_ID'),
-                         string(credentialsId: 'CF_SECRET', variable: 'CODEFORCES_API_SECRET')]
+                         string(credentialsId: 'CF_SECRET', variable: 'CODEFORCES_API_SECRET'),
+                         string(credentialsId: 'dummy', variable: 'DUMMY_VARIABLE') 
+                         ]
                         ) {
           sh '''
+          echo $DUMMY_VARIABLE
           docker build . \
             --build-arg TOKEN=$DISCORD_BOT_TOKEN \
             --build-arg CLIENT_ID=$DISCORD_BOT_CLIENT_ID \
