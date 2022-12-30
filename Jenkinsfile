@@ -47,6 +47,7 @@ pipeline {
             -e CF_SECRET=$CODEFORCES_API_SECRET \
             -d \
             cs-club-bot:latest'
+        }
       }
     }
   }
