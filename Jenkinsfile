@@ -9,12 +9,21 @@ pipeline {
 
     stage('build') {
       steps {
-        sh 'docker build . --build-arg TOKEN=$DISCORD_BOT_TOKEN --build-arg CLIENT_ID=$DISCORD_BOT_CLIENT_ID --build-arg CF_ID=$CODEFORCES_API_ID --build-arg CF_SECRET=$CODEFORCES_API_SECRET -t cs-club-bot:$(git rev-parse --abbrev-ref HEAD | sed \'s/[^a-zA-Z0-9]/-/g\') '
+        withCredentials([string(credentialsId: 'TOKEN', variable: 'DISCORD_BOT_TOKEN'), 
+                         string(credentialsId: 'CLIENT_ID', variable: 'DISCORD_BOT_CLIENT_ID'),
+                         string(credentialsId: 'CF_ID', variable: 'CODEFORCES_API_ID'),
+                         string(credentialsId: 'CF_SECRET', variable: 'CODEFORCES_API_SECRET')]
+                        ) {
+          sh '''
+          docker build . \
+            --build-arg TOKEN=$DISCORD_BOT_TOKEN \
+            --build-arg CLIENT_ID=$DISCORD_BOT_CLIENT_ID \
+            --build-arg CF_ID=$CODEFORCES_API_ID \
+            --build-arg CF_SECRET=$CODEFORCES_API_SECRET \
+            -t cs-club-bot:$(git rev-parse --abbrev-ref HEAD | sed \'s/[^a-zA-Z0-9]/-/g\')
+          '''
+        }
       }
     }
-
-  }
-  environment {
-    test_name = 'test_value'
   }
 }
