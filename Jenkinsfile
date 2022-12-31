@@ -9,7 +9,7 @@ pipeline {
 
     stage('build') {
       steps {
-        sh 'npm run build'
+        sh 'docker build . -t cs-club-bot:$(git rev-parse --abbrev-ref HEAD | sed \'s/[^a-zA-Z0-9]/-/g\') '
       }
     }
 
