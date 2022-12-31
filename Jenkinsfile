@@ -9,7 +9,7 @@ pipeline {
 
     stage('build') {
       steps {
-        sh 'docker build . -t cs-club-bot:$(git rev-parse --abbrev-ref HEAD | sed \'s/[^a-zA-Z0-9]/-/g\') '
+        sh 'docker build . --build-arg TOKEN=$DISCORD_BOT_TOKEN --build-arg CLIENT_ID=$DISCORD_BOT_CLIENT_ID --build-arg CF_ID=$CODEFORCES_API_ID --build-arg CF_SECRET=$CODEFORCES_API_SECRET -t cs-club-bot:$(git rev-parse --abbrev-ref HEAD | sed \'s/[^a-zA-Z0-9]/-/g\') '
       }
     }
 
