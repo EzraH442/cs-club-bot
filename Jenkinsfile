@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('checkout') {
       steps {
-        git(url: 'https://github.com/ezrah442/cs-club-bot', branch: 'main', credentialsId: 'e0660be1-ad5e-4d51-b873-000c682efbd5')
+        git(url: 'https://github.com/ezrah442/cs-club-bot', branch: 'jenkins', credentialsId: 'e0660be1-ad5e-4d51-b873-000c682efbd5')
       }
     }
 
