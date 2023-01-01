@@ -10,6 +10,9 @@ void setBuildStatus(String message, String state) {
 
 pipeline {
   agent any
+  triggers {
+    pollSCM('')
+  }
   stages {
     stage('checkout') {
       steps {
