@@ -11,7 +11,7 @@ void setBuildStatus(String message, String state) {
 pipeline {
   agent any
   triggers {
-    pollSCM('')
+    pollSCM('* * * * *')
   }
   stages {
     stage('checkout') {
