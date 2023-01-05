@@ -59,7 +59,7 @@ pipeline {
           string(credentialsId: 'CF_ID', variable: 'CODEFORCES_API_ID'),
           string(credentialsId: 'CF_SECRET', variable: 'CODEFORCES_API_SECRET')
         ]) {
-          sh 'docker stop $(sudo docker ps -a -q  --filter ancestor=cs-club-bot:latest)'
+          sh 'docker stop $(docker ps -a -q  --filter ancestor=cs-club-bot:latest)'
           sh 'docker tag cs-club-bot:main-$(git log -1 --pretty=%h) cs-club-bot:latest'
           sh 'docker run \
             -e TOKEN=$DISCORD_BOT_TOKEN \
